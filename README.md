@@ -1,58 +1,92 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ServiceLocal - Local Services Marketplace (Republic of Ireland)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+ServiceLocal is a location-based services marketplace demo built for the Republic of Ireland. It provides a complete three-sided workflow connecting Customers, Service Providers, and Platform Administrators without third-party external dependencies, real payment credentials, or password forms.
 
-## About Laravel
+All UI, code, seed data, and documentation are strictly written in English. The application uses integer cents in EUR for all monetary calculations and strictly avoids emoji.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 1. Technology Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend Framework**: Laravel 13.x (PHP 8.3+)
+- **Database**: SQLite with foreign key enforcement and WAL mode
+- **Frontend Architecture**: Blade Components, Tailwind CSS v4, Alpine.js v3
+- **Icons**: Lucide SVG inline icons (strictly zero emoji)
+- **Testing Framework**: Pest PHP v4 with Unit and Feature test suites
+- **Development & Runtime Environment**: Adanix Docker containers (`service-market-app-1`)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 2. Seeded Demo Accounts (Passwordless Authentication)
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Access any persona by visiting `/demo/sign-in` or using direct links:
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+| Name | Role | Email | Profile / Scope |
+| --- | --- | --- | --- |
+| Aoife Murphy | Administrator | aoife.admin@demo.test | Marketplace oversight, moderation, payouts, settings, audit log |
+| Liam O'Connor | Provider | liam.provider@demo.test | O'Connor Home Cleaning (Dublin). Approved provider with 4 services |
+| Maria Silva | Provider | maria.provider@demo.test | Silva Garden Care (Cork). Approved provider with 4 services |
+| Tomas Novak | Provider | tomas.provider@demo.test | Novak Plumbing (Galway). Pending provider status |
+| Sinead Byrne | Provider | sinead.provider@demo.test | Byrne Repair (Limerick). Suspended provider account |
+| Emma Walsh | Customer | emma.customer@demo.test | Dublin customer with active and past bookings |
+| Jack Ryan | Customer | jack.customer@demo.test | Cork customer with active and completed bookings |
 
-## Agentic Development
+---
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## 3. Simulated Payment Card Matrix
+
+The checkout simulation operates entirely in application code without external payment gateway SDKs or real API credentials. Full card numbers, expiration dates, and CVC codes are never persisted to the database.
+
+| Card Number | Brand | Simulated Behavior / Outcome |
+| --- | --- | --- |
+| 4242 4242 4242 4242 | Visa | Approved immediately. Booking placed into Pending Provider state. |
+| 5555 5555 5555 4444 | Mastercard | Approved immediately. Booking placed into Pending Provider state. |
+| 4000 0000 0000 0002 | Visa | Declined with message: Card declined by issuer. |
+| 4000 0000 0000 0051 | Visa | Declined with message: Insufficient funds. |
+| 4000 0000 0000 0019 | Visa | Declined with message: Transaction temporarily blocked. |
+| Any other card | - | Declined with message: Unrecognized demo card number. |
+
+---
+
+## 4. Key Operational and Console Commands
+
+Run these commands inside the application container or environment:
 
 ```bash
-composer require laravel/boost --dev
+# Run the complete automated test suite
+php artisan test
 
-php artisan boost:install
+# Reset the demo environment to its pristine seeded state
+php artisan demo:reset --force
+
+# Fast-forward demo time by one day and trigger scheduled jobs
+php artisan demo:tick
+
+# Run individual background scheduled tasks
+php artisan bookings:expire-authorizations
+php artisan bookings:auto-complete
+php artisan bookings:send-reminders
+
+# Clear and cache application views
+php artisan view:clear
+php artisan view:cache
+
+# Rebuild frontend assets (run from host)
+/opt/adanix/bin/adanix build service-market
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+---
 
-## Contributing
+## 5. Architectural & Design Decisions
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Integer Cents in EUR**: All monetary amounts are stored as integer cents (`price_cents`, `amount_cents`, `fee_cents`, `net_cents`). Formatting produces standard Irish euro strings (e.g., `€85.00`) using the dedicated `App\Support\Money` value object. Floating point math is never used.
+- **Two-Phase Payment Escrow**: Checkout authorizes a hold on customer funds without capturing immediately. Capture occurs only upon customer confirmation or automated completion after the dispute window expires.
+- **State Machine Integrity**: Bookings transition through explicit states (`PendingProvider`, `Accepted`, `InProgress`, `AwaitingConfirmation`, `Completed`, `Declined`, `Cancelled`, `Expired`) enforced by `App\Enums\BookingStatus` and guarded by authorization policies.
+- **Security & Privacy**: Strict role middleware (`role:customer`, `role:provider`, `role:admin`) isolates tenant workspaces. Idempotency keys prevent duplicate payments on repeated checkout submissions.
+- **Accessibility & Hygiene**: Pure SVG icons, semantic HTML, responsive layout down to 320px width, zero emoji, zero Indonesian terms, zero hardcoded credentials.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 6. Documentation
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+A comprehensive in-app documentation page is available at `/docs`, containing all twelve required architectural, operational, and regulatory sections for evaluation and review.
