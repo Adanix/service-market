@@ -35,7 +35,7 @@ test('docs page returns 200 and contains all twelve required headings', function
         '9. Architecture and technology stack',
         '10. Seeded demo data and test personas',
         '11. Demo testing guide',
-        '12. Operational runbook and scheduled tasks',
+        '12. Extensibility and custom development roadmap',
     ];
 
     foreach ($requiredHeadings as $heading) {

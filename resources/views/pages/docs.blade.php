@@ -38,7 +38,7 @@
                     <li><a href="#section-9" @click="open = false" class="hover:text-teal-700 block py-1">9. Architecture and technology stack</a></li>
                     <li><a href="#section-10" @click="open = false" class="hover:text-teal-700 block py-1">10. Seeded demo data and test personas</a></li>
                     <li><a href="#section-11" @click="open = false" class="hover:text-teal-700 block py-1">11. Demo testing guide</a></li>
-                    <li><a href="#section-12" @click="open = false" class="hover:text-teal-700 block py-1">12. Operational runbook and scheduled tasks</a></li>
+                    <li><a href="#section-12" @click="open = false" class="hover:text-teal-700 block py-1">12. Extensibility and custom development roadmap</a></li>
                 </ol>
             </div>
         </div>
@@ -59,7 +59,7 @@
                     <li><a href="#section-9" class="hover:text-emerald-700 block py-0.5">9. Architecture and technology stack</a></li>
                     <li><a href="#section-10" class="hover:text-emerald-700 block py-0.5">10. Seeded demo data and test personas</a></li>
                     <li><a href="#section-11" class="hover:text-emerald-700 block py-0.5">11. Demo testing guide</a></li>
-                    <li><a href="#section-12" class="hover:text-emerald-700 block py-0.5">12. Operational runbook and scheduled tasks</a></li>
+                    <li><a href="#section-12" class="hover:text-emerald-700 block py-0.5">12. Extensibility and custom development roadmap</a></li>
                 </ol>
             </nav>
 
@@ -403,25 +403,83 @@
 
                 {{-- Section 12 --}}
                 <section id="section-12" class="scroll-mt-24">
-                    <h2 class="text-2xl font-bold text-stone-900 border-b border-stone-200 pb-3 mb-4">12. Operational runbook and scheduled tasks</h2>
-                    <p class="mb-4 text-sm text-stone-600">
-                        The application includes command-line operational tools for cron jobs and manual test orchestration:
+                    <h2 class="text-2xl font-bold text-stone-900 border-b border-stone-200 pb-3 mb-4">12. Extensibility and custom development roadmap</h2>
+                    <p class="mb-4 text-sm text-stone-600 leading-relaxed">
+                        <strong>Yes, ServiceLocal is built with high modularity and can be fully customized or expanded according to custom business requirements.</strong> Leveraging standard Laravel 13 architecture, Eloquent ORM, Alpine.js, and Tailwind CSS v4, the system serves as a production-grade foundation that can be extended across multiple commercial dimensions:
                     </p>
-                    <div class="space-y-4 text-sm">
-                        <div class="p-4 rounded-xl bg-stone-900 text-stone-200 font-mono text-xs overflow-x-auto">
-                            <div class="text-stone-400 mb-1"># Fast-forward demo state machine (expires authorisations, auto-completes pending confirmations, sends reminders)</div>
-                            <div>php artisan demo:tick</div>
-                            <div class="text-stone-400 mt-3 mb-1"># Reset database to pristine demo state</div>
-                            <div>php artisan demo:reset --force</div>
-                            <div class="text-stone-400 mt-3 mb-1"># Run test suite</div>
-                            <div>php artisan test</div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 text-sm">
+                        <div class="p-5 rounded-2xl bg-white border border-stone-200 shadow-xs hover:border-emerald-300 transition-colors">
+                            <div class="flex items-center gap-2.5 mb-2 font-bold text-stone-900">
+                                <span class="p-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                    <x-ui.icon name="credit-card" class="w-4 h-4" />
+                                </span>
+                                Real Payment Gateways (Stripe Connect, Revolut, Adyen)
+                            </div>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                The simulated two-phase gateway implements clean separation via service contracts. It can be directly connected to Stripe Connect (Express/Custom accounts) or Adyen for automated card pre-authorizations, instant marketplace commission splits, and automated SEPA/IBAN bank transfers.
+                            </p>
                         </div>
-                        <p class="text-xs text-stone-500">
-                            Scheduled tasks in production execute via Laravel Task Scheduling in <code class="text-xs bg-stone-100 px-1 py-0.5 rounded">routes/console.php</code>:
-                            <code class="text-xs bg-stone-100 px-1 py-0.5 rounded">bookings:expire-authorizations</code> (hourly),
-                            <code class="text-xs bg-stone-100 px-1 py-0.5 rounded">bookings:auto-complete</code> (hourly),
-                            and <code class="text-xs bg-stone-100 px-1 py-0.5 rounded">bookings:send-reminders</code> (every six hours).
-                        </p>
+
+                        <div class="p-5 rounded-2xl bg-white border border-stone-200 shadow-xs hover:border-sky-300 transition-colors">
+                            <div class="flex items-center gap-2.5 mb-2 font-bold text-stone-900">
+                                <span class="p-2 rounded-xl bg-sky-50 text-sky-700 border border-sky-100">
+                                    <x-ui.icon name="user" class="w-4 h-4" />
+                                </span>
+                                Full Authentication & Social Single Sign-On
+                            </div>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                The passwordless demo account switcher can be seamlessly replaced with standard email/password registration, password recovery, email verification (via Laravel Breeze or Fortify), and OAuth Social Login (Google, Apple, Microsoft via Laravel Socialite).
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-white border border-stone-200 shadow-xs hover:border-amber-300 transition-colors">
+                            <div class="flex items-center gap-2.5 mb-2 font-bold text-stone-900">
+                                <span class="p-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100">
+                                    <x-ui.icon name="shield-check" class="w-4 h-4" />
+                                </span>
+                                Customer Reviews, Ratings & Reputation Badges
+                            </div>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                A verified review module can be added as a polymorphic relation to completed bookings, enabling customers to rate providers (1 to 5 stars), evaluate punctuality and quality, upload before/after photos, and display reputation badges on public profiles.
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-white border border-stone-200 shadow-xs hover:border-purple-300 transition-colors">
+                            <div class="flex items-center gap-2.5 mb-2 font-bold text-stone-900">
+                                <span class="p-2 rounded-xl bg-purple-50 text-purple-700 border border-purple-100">
+                                    <x-ui.icon name="mail" class="w-4 h-4" />
+                                </span>
+                                In-App Messaging & Multi-Channel Alerts
+                            </div>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                Enable real-time chat between customers and providers using Laravel Reverb (WebSockets) or Pusher. Extend notifications with Twilio (SMS), WhatsApp Business Cloud API, or mobile push notifications (Firebase Cloud Messaging).
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-white border border-stone-200 shadow-xs hover:border-indigo-300 transition-colors">
+                            <div class="flex items-center gap-2.5 mb-2 font-bold text-stone-900">
+                                <span class="p-2 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-100">
+                                    <x-ui.icon name="map-pin" class="w-4 h-4" />
+                                </span>
+                                Interactive Maps, Eircode & GPS Radius Search
+                            </div>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                Expand county filtering with interactive Mapbox or Google Maps, automatic Irish Eircode validation, and spatial GPS radius calculations to find providers within 5 km, 15 km, or 30 km of the customer.
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-white border border-stone-200 shadow-xs hover:border-teal-300 transition-colors">
+                            <div class="flex items-center gap-2.5 mb-2 font-bold text-stone-900">
+                                <span class="p-2 rounded-xl bg-teal-50 text-teal-700 border border-teal-100">
+                                    <x-ui.icon name="calendar" class="w-4 h-4" />
+                                </span>
+                                Two-Way Calendar Sync & Custom Job Bids
+                            </div>
+                            <p class="text-xs text-stone-600 leading-relaxed">
+                                Synchronize provider availability with Google Calendar and Apple iCal via standard iCal/CalDAV feeds to prevent schedule collisions, and allow customers to request custom price quotes for non-standard jobs.
+                            </p>
+                        </div>
                     </div>
                 </section>
 
