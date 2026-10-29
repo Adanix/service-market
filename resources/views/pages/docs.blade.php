@@ -11,9 +11,41 @@
             </p>
         </div>
 
+        {{-- Mobile Table of Contents (Non-sticky, collapsible) --}}
+        <div class="block lg:hidden mb-8" x-data="{ open: false }">
+            <button @click="open = !open" 
+                    type="button" 
+                    class="w-full flex items-center justify-between px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl text-left text-sm font-semibold text-stone-800 focus:outline-none focus:ring-2 focus:ring-teal-600 transition">
+                <span class="flex items-center gap-2">
+                    <x-ui.icon name="file-text" class="w-4 h-4 text-stone-500" />
+                    <span>Table of Contents (12 Sections)</span>
+                </span>
+                <x-ui.icon name="chevron-down" class="w-4 h-4 text-stone-500 transition-transform duration-200" ::class="{ 'rotate-180': open }" />
+            </button>
+            
+            <div x-show="open" 
+                 x-cloak 
+                 class="mt-2 bg-stone-50 border border-stone-200 rounded-xl p-4 text-sm">
+                <ol class="space-y-2 text-stone-700">
+                    <li><a href="#section-1" @click="open = false" class="hover:text-teal-700 block py-1">1. Executive summary</a></li>
+                    <li><a href="#section-2" @click="open = false" class="hover:text-teal-700 block py-1">2. Domain model and entity relationships</a></li>
+                    <li><a href="#section-3" @click="open = false" class="hover:text-teal-700 block py-1">3. Geographic scope (Republic of Ireland)</a></li>
+                    <li><a href="#section-4" @click="open = false" class="hover:text-teal-700 block py-1">4. User roles and authorization</a></li>
+                    <li><a href="#section-5" @click="open = false" class="hover:text-teal-700 block py-1">5. Provider lifecycle and service catalog</a></li>
+                    <li><a href="#section-6" @click="open = false" class="hover:text-teal-700 block py-1">6. Booking and payment lifecycle</a></li>
+                    <li><a href="#section-7" @click="open = false" class="hover:text-teal-700 block py-1">7. Money handling and payout mechanics</a></li>
+                    <li><a href="#section-8" @click="open = false" class="hover:text-teal-700 block py-1">8. Audit trail and moderation</a></li>
+                    <li><a href="#section-9" @click="open = false" class="hover:text-teal-700 block py-1">9. Architecture and technology stack</a></li>
+                    <li><a href="#section-10" @click="open = false" class="hover:text-teal-700 block py-1">10. Seeded demo data and test personas</a></li>
+                    <li><a href="#section-11" @click="open = false" class="hover:text-teal-700 block py-1">11. Demo testing guide</a></li>
+                    <li><a href="#section-12" @click="open = false" class="hover:text-teal-700 block py-1">12. Operational runbook and scheduled tasks</a></li>
+                </ol>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {{-- Table of Contents Sticky Nav --}}
-            <nav class="lg:col-span-3 sticky top-20 bg-stone-50 border border-stone-200 rounded-2xl p-5 text-sm" aria-label="Table of Contents">
+            {{-- Desktop Sticky Nav --}}
+            <nav class="hidden lg:block lg:col-span-3 lg:sticky lg:top-24 lg:self-start bg-stone-50 border border-stone-200 rounded-2xl p-5 text-sm max-h-[calc(100vh-7rem)] overflow-y-auto" aria-label="Table of Contents">
                 <div class="text-xs font-bold text-stone-500 uppercase tracking-wider mb-3">Sections</div>
                 <ol class="space-y-2 text-stone-700">
                     <li><a href="#section-1" class="hover:text-emerald-700 block py-0.5">1. Executive summary</a></li>

@@ -98,7 +98,7 @@
             </div>
 
             {{-- Right Column: Sticky Booking Card --}}
-            <div class="lg:col-span-4 sticky top-20">
+            <div class="relative lg:col-span-4 lg:sticky lg:top-24 lg:self-start">
                 <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-lg space-y-6">
                     <div class="flex items-baseline justify-between border-b border-stone-100 pb-4">
                         <div>
