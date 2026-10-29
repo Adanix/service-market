@@ -81,4 +81,11 @@ test('demo sign out invalidates session and redirects home', function () {
         ->assertRedirect(route('home'));
 
     $this->assertGuest();
+
+    // GET method also gracefully signs out and redirects home
+    $this->actingAs($customer)
+        ->get(route('demo.sign-out'))
+        ->assertRedirect(route('home'));
+
+    $this->assertGuest();
 });

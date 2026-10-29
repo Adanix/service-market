@@ -52,9 +52,11 @@ class DemoAuthController extends Controller
 
     public function signOut(Request $request): RedirectResponse
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        if (Auth::check()) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
 
         return redirect()->route('home')->with('success', 'You have been signed out.');
     }

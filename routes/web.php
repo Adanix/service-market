@@ -43,7 +43,7 @@ Route::get('/providers/{provider:slug}', [ProviderProfileController::class, 'sho
 Route::get('/demo/sign-in', [DemoAuthController::class, 'show'])->name('demo.sign-in');
 Route::post('/demo/sign-in/{user}', [DemoAuthController::class, 'signIn'])->name('demo.sign-in.as');
 Route::post('/demo/login/{user}', [DemoAuthController::class, 'signIn'])->name('demo.login');
-Route::post('/demo/sign-out', [DemoAuthController::class, 'signOut'])->name('demo.sign-out')->middleware('auth');
+Route::match(['get', 'post'], '/demo/sign-out', [DemoAuthController::class, 'signOut'])->name('demo.sign-out');
 
 // Customer area
 Route::middleware(['auth', 'role:customer'])->prefix('customer')->name('customer.')->group(function () {
