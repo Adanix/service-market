@@ -23,40 +23,40 @@
 
         {{-- KPI Cards --}}
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-            <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm">
-                <span class="text-xs font-bold text-stone-500 uppercase tracking-wider block">New Requests</span>
+            <div class="bg-white p-4 rounded-2xl border border-stone-200 border-t-3 border-t-sky-500 shadow-xs hover:shadow-md transition-shadow">
+                <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider block">New Requests</span>
                 <span class="text-2xl font-extrabold text-stone-900 mt-1 block">{{ $newBookingsCount }}</span>
-                <a href="{{ route('admin.bookings.index', ['status' => 'pending_provider']) }}" class="text-[11px] text-emerald-700 font-semibold hover:underline mt-1 block">View Bookings</a>
+                <a href="{{ route('admin.bookings.index', ['status' => 'pending_provider']) }}" class="text-[11px] text-sky-700 font-semibold hover:underline mt-1 block">View Bookings</a>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm">
-                <span class="text-xs font-bold text-stone-500 uppercase tracking-wider block">Pending Providers</span>
+            <div class="bg-white p-4 rounded-2xl border border-stone-200 border-t-3 border-t-amber-500 shadow-xs hover:shadow-md transition-shadow">
+                <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider block">Pending Providers</span>
                 <span class="text-2xl font-extrabold text-amber-600 mt-1 block">{{ $pendingProvidersCount }}</span>
-                <a href="{{ route('admin.providers.index', ['status' => 'pending']) }}" class="text-[11px] text-emerald-700 font-semibold hover:underline mt-1 block">Review</a>
+                <a href="{{ route('admin.providers.index', ['status' => 'pending']) }}" class="text-[11px] text-amber-700 font-semibold hover:underline mt-1 block">Review</a>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm">
-                <span class="text-xs font-bold text-stone-500 uppercase tracking-wider block">Pending Services</span>
-                <span class="text-2xl font-extrabold text-amber-600 mt-1 block">{{ $pendingServicesCount }}</span>
-                <a href="{{ route('admin.services.index', ['status' => 'pending_review']) }}" class="text-[11px] text-emerald-700 font-semibold hover:underline mt-1 block">Moderate</a>
+            <div class="bg-white p-4 rounded-2xl border border-stone-200 border-t-3 border-t-orange-500 shadow-xs hover:shadow-md transition-shadow">
+                <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider block">Pending Services</span>
+                <span class="text-2xl font-extrabold text-orange-600 mt-1 block">{{ $pendingServicesCount }}</span>
+                <a href="{{ route('admin.services.index', ['status' => 'pending_review']) }}" class="text-[11px] text-orange-700 font-semibold hover:underline mt-1 block">Moderate</a>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm">
-                <span class="text-xs font-bold text-stone-500 uppercase tracking-wider block">Captured (MTD)</span>
+            <div class="bg-white p-4 rounded-2xl border border-stone-200 border-t-3 border-t-emerald-500 shadow-xs hover:shadow-md transition-shadow">
+                <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider block">Captured (MTD)</span>
                 <x-ui.money :cents="$capturedThisMonthCents" class="text-xl font-extrabold text-stone-900 mt-1 block" />
-                <span class="text-[11px] text-stone-400 mt-1 block">Gross Volume</span>
+                <span class="text-[10px] text-stone-400 mt-1 block font-medium">Gross Volume</span>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm">
-                <span class="text-xs font-bold text-stone-500 uppercase tracking-wider block">Commission (MTD)</span>
+            <div class="bg-white p-4 rounded-2xl border border-stone-200 border-t-3 border-t-teal-600 shadow-xs hover:shadow-md transition-shadow">
+                <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider block">Commission (MTD)</span>
                 <x-ui.money :cents="$commissionThisMonthCents" class="text-xl font-extrabold text-emerald-700 mt-1 block" />
-                <span class="text-[11px] text-stone-400 mt-1 block">Platform Revenue</span>
+                <span class="text-[10px] text-stone-400 mt-1 block font-medium">Platform Revenue</span>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm">
-                <span class="text-xs font-bold text-stone-500 uppercase tracking-wider block">Unpaid Payouts</span>
+            <div class="bg-white p-4 rounded-2xl border border-stone-200 border-t-3 border-t-purple-500 shadow-xs hover:shadow-md transition-shadow">
+                <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider block">Unpaid Payouts</span>
                 <x-ui.money :cents="$availablePayoutsCents" class="text-xl font-extrabold text-purple-700 mt-1 block" />
-                <a href="{{ route('admin.payouts.index') }}" class="text-[11px] text-emerald-700 font-semibold hover:underline mt-1 block">Process</a>
+                <a href="{{ route('admin.payouts.index') }}" class="text-[11px] text-purple-700 font-semibold hover:underline mt-1 block">Process</a>
             </div>
         </div>
 

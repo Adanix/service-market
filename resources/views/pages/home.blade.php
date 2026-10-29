@@ -1,21 +1,25 @@
 <x-layouts.app title="ServiceLocal - Local Home and Professional Services in Ireland">
     {{-- Hero Section --}}
-    <section class="relative bg-gradient-to-b from-stone-900 to-stone-800 text-white py-16 sm:py-24 overflow-hidden">
+    <section class="relative bg-gradient-to-br from-slate-900 via-[#18324A] to-emerald-950 text-white py-16 sm:py-24 overflow-hidden border-b border-emerald-900/40">
+        {{-- Subtle decorative ambient glows --}}
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-teal-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="max-w-3xl text-center sm:text-left">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 mb-6">
-                    <x-ui.icon name="shield-check" class="w-3.5 h-3.5" />
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 mb-6 backdrop-blur-xs">
+                    <x-ui.icon name="shield-check" class="w-3.5 h-3.5 text-emerald-400" />
                     Trusted Local Marketplace across all 26 Irish Counties
                 </span>
                 <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-6 leading-tight">
                     Reliable local home services, booked with confidence.
                 </h1>
-                <p class="text-lg sm:text-xl text-stone-300 mb-8 leading-relaxed">
+                <p class="text-lg sm:text-xl text-stone-200 mb-8 leading-relaxed">
                     Find vetted local trades, cleaners, tutors and specialists. Book with simulated card authorization—you only pay once the work is completed and confirmed.
                 </p>
 
                 {{-- Search Box --}}
-                <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-2xl text-stone-900 border border-stone-200">
+                <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-2xl text-stone-900 border border-emerald-100/60 ring-4 ring-black/10">
                     <form action="{{ route('services.index') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-12 gap-3">
                         <div class="sm:col-span-4">
                             <label for="q" class="sr-only">Search</label>
@@ -48,7 +52,7 @@
                         </div>
 
                         <div class="sm:col-span-2">
-                            <button type="submit" class="w-full h-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg text-sm shadow transition-colors flex items-center justify-center gap-2">
+                            <button type="submit" class="w-full h-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg text-sm shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer">
                                 <x-ui.icon name="search" class="w-4 h-4" />
                                 <span>Search</span>
                             </button>
@@ -60,24 +64,24 @@
     </section>
 
     {{-- Stats Bar --}}
-    <section class="bg-stone-100 border-b border-stone-200 py-6">
+    <section class="bg-gradient-to-r from-stone-50 via-emerald-50/20 to-stone-50 border-b border-stone-200 py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                 <div>
-                    <div class="text-2xl font-bold text-stone-900">{{ $stats['services_count'] }}+</div>
-                    <div class="text-xs text-stone-500 font-medium mt-0.5">Active Services</div>
+                    <div class="text-2xl font-extrabold text-stone-900">{{ $stats['services_count'] }}+</div>
+                    <div class="text-xs text-stone-500 font-semibold mt-0.5">Active Services</div>
                 </div>
                 <div>
-                    <div class="text-2xl font-bold text-stone-900">{{ $stats['providers_count'] }}</div>
-                    <div class="text-xs text-stone-500 font-medium mt-0.5">Approved Providers</div>
+                    <div class="text-2xl font-extrabold text-stone-900">{{ $stats['providers_count'] }}</div>
+                    <div class="text-xs text-stone-500 font-semibold mt-0.5">Approved Providers</div>
                 </div>
                 <div>
-                    <div class="text-2xl font-bold text-stone-900">{{ $stats['counties_count'] }}</div>
-                    <div class="text-xs text-stone-500 font-medium mt-0.5">Counties Covered</div>
+                    <div class="text-2xl font-extrabold text-stone-900">{{ $stats['counties_count'] }}</div>
+                    <div class="text-xs text-stone-500 font-semibold mt-0.5">Counties Covered</div>
                 </div>
                 <div>
-                    <div class="text-2xl font-bold text-emerald-600">{{ $stats['completed_bookings'] }}+</div>
-                    <div class="text-xs text-stone-500 font-medium mt-0.5">Completed Bookings</div>
+                    <div class="text-2xl font-extrabold text-emerald-700">{{ $stats['completed_bookings'] }}+</div>
+                    <div class="text-xs text-stone-500 font-semibold mt-0.5">Completed Bookings</div>
                 </div>
             </div>
         </div>
@@ -98,8 +102,22 @@
 
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
                 @foreach($categories as $category)
-                    <a href="{{ route('services.index', ['category' => $category->slug]) }}" class="group flex flex-col items-center text-center p-4 rounded-xl border border-stone-200 hover:border-emerald-500 hover:shadow-md transition-all bg-stone-50/50 hover:bg-white">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    @php
+                        $cSlug = $category->slug ?? '';
+                        $cChip = match(true) {
+                            str_contains($cSlug, 'clean') => 'bg-sky-50 text-sky-700 border-sky-200/80',
+                            str_contains($cSlug, 'garden') => 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
+                            str_contains($cSlug, 'plumb') => 'bg-cyan-50 text-cyan-700 border-cyan-200/80',
+                            str_contains($cSlug, 'electr') => 'bg-amber-50 text-amber-700 border-amber-200/80',
+                            str_contains($cSlug, 'paint') => 'bg-purple-50 text-purple-700 border-purple-200/80',
+                            str_contains($cSlug, 'handy') => 'bg-orange-50 text-orange-700 border-orange-200/80',
+                            str_contains($cSlug, 'mov') => 'bg-indigo-50 text-indigo-700 border-indigo-200/80',
+                            str_contains($cSlug, 'tutor') => 'bg-blue-50 text-blue-700 border-blue-200/80',
+                            default => 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
+                        };
+                    @endphp
+                    <a href="{{ route('services.index', ['category' => $category->slug]) }}" class="group flex flex-col items-center text-center p-4 rounded-2xl border border-stone-200 hover:border-emerald-400 hover:shadow-md transition-all bg-white hover:bg-emerald-50/20">
+                        <div class="w-12 h-12 rounded-xl {{ $cChip }} border flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-2xs">
                             <x-ui.icon :name="$category->icon" class="w-6 h-6" />
                         </div>
                         <span class="text-xs font-semibold text-stone-800 group-hover:text-emerald-700">{{ $category->name }}</span>
@@ -110,14 +128,14 @@
     </section>
 
     {{-- Popular Services --}}
-    <section class="py-14 bg-stone-50 border-y border-stone-200">
+    <section class="py-14 bg-stone-50/70 border-y border-stone-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between mb-8">
                 <div>
                     <h2 class="text-2xl font-bold text-stone-900">Popular Services</h2>
                     <p class="text-sm text-stone-500 mt-1">Top-rated services available for booking today</p>
                 </div>
-                <a href="{{ route('services.index') }}" class="text-sm font-medium text-emerald-700 hover:text-emerald-800 flex items-center gap-1">
+                <a href="{{ route('services.index') }}" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1">
                     Browse catalog <x-ui.icon name="arrow-right" class="w-4 h-4" />
                 </a>
             </div>
@@ -138,14 +156,14 @@
     <section class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-12">
-                <span class="text-xs font-bold text-emerald-700 tracking-wider uppercase">Simple & Transparent</span>
-                <h2 class="text-3xl font-extrabold text-stone-900 mt-2">How ServiceLocal Works</h2>
+                <span class="text-xs font-bold text-emerald-700 tracking-wider uppercase bg-emerald-50 border border-emerald-200/80 px-3 py-1 rounded-full inline-block">Simple & Transparent</span>
+                <h2 class="text-3xl font-extrabold text-stone-900 mt-3">How ServiceLocal Works</h2>
                 <p class="text-stone-500 mt-2 text-sm">We protect both customer and provider with an escrow-like authorization model.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="p-6 rounded-2xl bg-stone-50 border border-stone-200 text-center">
-                    <div class="w-12 h-12 mx-auto rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-lg mb-4">
+                <div class="p-6 rounded-2xl bg-stone-50/60 border border-stone-200/90 text-center hover:border-sky-300 transition-colors">
+                    <div class="w-12 h-12 mx-auto rounded-xl bg-sky-100 text-sky-800 border border-sky-200/80 flex items-center justify-center font-extrabold text-lg mb-4 shadow-xs">
                         1
                     </div>
                     <h3 class="text-lg font-bold text-stone-900 mb-2">Find & Book</h3>
@@ -154,8 +172,8 @@
                     </p>
                 </div>
 
-                <div class="p-6 rounded-2xl bg-stone-50 border border-stone-200 text-center">
-                    <div class="w-12 h-12 mx-auto rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-lg mb-4">
+                <div class="p-6 rounded-2xl bg-stone-50/60 border border-stone-200/90 text-center hover:border-amber-300 transition-colors">
+                    <div class="w-12 h-12 mx-auto rounded-xl bg-amber-100 text-amber-800 border border-amber-200/80 flex items-center justify-center font-extrabold text-lg mb-4 shadow-xs">
                         2
                     </div>
                     <h3 class="text-lg font-bold text-stone-900 mb-2">Simulated Authorization</h3>
@@ -164,8 +182,8 @@
                     </p>
                 </div>
 
-                <div class="p-6 rounded-2xl bg-stone-50 border border-stone-200 text-center">
-                    <div class="w-12 h-12 mx-auto rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-lg mb-4">
+                <div class="p-6 rounded-2xl bg-stone-50/60 border border-stone-200/90 text-center hover:border-emerald-300 transition-colors">
+                    <div class="w-12 h-12 mx-auto rounded-xl bg-emerald-100 text-emerald-800 border border-emerald-200/80 flex items-center justify-center font-extrabold text-lg mb-4 shadow-xs">
                         3
                     </div>
                     <h3 class="text-lg font-bold text-stone-900 mb-2">Confirm & Release</h3>

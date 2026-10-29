@@ -48,18 +48,20 @@
                 title="Active Bookings"
                 :value="$activeBookingsCount"
                 icon="clock"
+                color="sky"
             />
             <x-ui.stat-card
                 title="Completed Bookings"
                 :value="$completedBookingsCount"
                 icon="check-circle"
+                color="emerald"
             />
-            <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
+            <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs hover:shadow-md transition duration-150 flex items-center justify-between">
                 <div>
-                    <span class="text-xs font-bold text-stone-500 uppercase tracking-wider block">Total Spent</span>
+                    <span class="text-xs font-semibold text-stone-500 uppercase tracking-wider block">Total Spent</span>
                     <x-ui.money :cents="$totalSpentCents" class="text-2xl font-extrabold text-stone-900 mt-1 block" />
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center shrink-0 shadow-xs">
                     <x-ui.icon name="credit-card" class="w-6 h-6" />
                 </div>
             </div>

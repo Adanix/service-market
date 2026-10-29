@@ -41,23 +41,26 @@
                 title="Action Required"
                 :value="$newRequestsCount"
                 icon="bell"
+                color="amber"
             />
             <x-ui.stat-card
                 title="Upcoming Bookings"
                 :value="$upcomingBookingsCount"
                 icon="calendar"
+                color="sky"
             />
             <x-ui.stat-card
                 title="Awaiting Confirmation"
                 :value="$awaitingCustomerCount"
                 icon="clock"
+                color="purple"
             />
-            <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
+            <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs hover:shadow-md transition duration-150 flex items-center justify-between">
                 <div>
-                    <span class="text-xs font-bold text-stone-500 uppercase tracking-wider block">Available Net Earnings</span>
+                    <span class="text-xs font-semibold text-stone-500 uppercase tracking-wider block">Available Net Earnings</span>
                     <x-ui.money :cents="$availableEarningsCents" class="text-2xl font-extrabold text-stone-900 mt-1 block" />
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0 shadow-xs">
                     <x-ui.icon name="coins" class="w-6 h-6" />
                 </div>
             </div>
