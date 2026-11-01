@@ -1,92 +1,130 @@
-# ServiceLocal - Local Services Marketplace (Republic of Ireland)
+# ServiceLocal - Local Services & Freelance Directory Marketplace
 
-ServiceLocal is a location-based services marketplace demo built for the Republic of Ireland. It provides a complete three-sided workflow connecting Customers, Service Providers, and Platform Administrators without third-party external dependencies, real payment credentials, or password forms.
-
-All UI, code, seed data, and documentation are strictly written in English. The application uses integer cents in EUR for all monetary calculations and strictly avoids emoji.
+ServiceLocal is a location-based services marketplace platform connecting customers with verified local service professionals and contractors. The architecture supports a three-sided operational model: customers seeking home or technical services, verified service providers offering expertise, and platform administrators maintaining operational quality and payout disbursements.
 
 ---
 
-## 1. Technology Stack
+## Key Modules & Capabilities
 
-- **Backend Framework**: Laravel 13.x (PHP 8.3+)
-- **Database**: SQLite with foreign key enforcement and WAL mode
-- **Frontend Architecture**: Blade Components, Tailwind CSS v4, Alpine.js v3
-- **Icons**: Lucide SVG inline icons (strictly zero emoji)
-- **Testing Framework**: Pest PHP v4 with Unit and Feature test suites
-- **Development & Runtime Environment**: Adanix Docker containers (`service-market-app-1`)
+### 1. Service Catalog & Regional Taxonomy
+* Categorized directory covering residential maintenance, plumbing, electrical installations, cleaning, and digital consulting.
+* Regional county and district geographical classification enabling localized search results.
+* Detailed service listings including base rates, service scopes, and prerequisites.
 
----
+### 2. Verified Service Provider Profiles
+* Provider business profiles featuring trade badges, insurance verification flags, operational regions, and portfolio showcases.
+* Direct inquiry submission allowing customers to describe project scopes and preferred dates.
+* Provider performance metrics, completed booking counts, and customer feedback.
 
-## 2. Seeded Demo Accounts (Passwordless Authentication)
+### 3. Booking & Dispatch Workflow
+* Structured booking request lifecycle (Pending, Confirmed, In Progress, Completed, Cancelled).
+* Date and timeslot selection for scheduled home visits.
+* Automated customer status updates and service confirmation logging.
 
-Access any persona by visiting `/demo/sign-in` or using direct links:
+### 4. Settlement & Payout Engine
+* Secure transaction recording for customer service deposits and balance settlements.
+* Platform fee calculation and deduction rules.
+* Provider payout record generation for bank disbursement tracking and financial audits.
 
-| Name | Role | Email | Profile / Scope |
-| --- | --- | --- | --- |
-| Aoife Murphy | Administrator | aoife.admin@demo.test | Marketplace oversight, moderation, payouts, settings, audit log |
-| Liam O'Connor | Provider | liam.provider@demo.test | O'Connor Home Cleaning (Dublin). Approved provider with 4 services |
-| Maria Silva | Provider | maria.provider@demo.test | Silva Garden Care (Cork). Approved provider with 4 services |
-| Tomas Novak | Provider | tomas.provider@demo.test | Novak Plumbing (Galway). Pending provider status |
-| Sinead Byrne | Provider | sinead.provider@demo.test | Byrne Repair (Limerick). Suspended provider account |
-| Emma Walsh | Customer | emma.customer@demo.test | Dublin customer with active and past bookings |
-| Jack Ryan | Customer | jack.customer@demo.test | Cork customer with active and completed bookings |
+### 5. In-Platform Customer Messaging
+* Contact and inquiry messaging allowing direct exchange between customer and assigned provider.
+* Administrative visibility over open inquiries for dispute resolution and quality assurance.
 
----
-
-## 3. Simulated Payment Card Matrix
-
-The checkout simulation operates entirely in application code without external payment gateway SDKs or real API credentials. Full card numbers, expiration dates, and CVC codes are never persisted to the database.
-
-| Card Number | Brand | Simulated Behavior / Outcome |
-| --- | --- | --- |
-| 4242 4242 4242 4242 | Visa | Approved immediately. Booking placed into Pending Provider state. |
-| 5555 5555 5555 4444 | Mastercard | Approved immediately. Booking placed into Pending Provider state. |
-| 4000 0000 0000 0002 | Visa | Declined with message: Card declined by issuer. |
-| 4000 0000 0000 0051 | Visa | Declined with message: Insufficient funds. |
-| 4000 0000 0000 0019 | Visa | Declined with message: Transaction temporarily blocked. |
-| Any other card | - | Declined with message: Unrecognized demo card number. |
+### 6. Audit & System Governance
+* Activity audit logs recording provider status changes (approval, suspension, re-verification).
+* System-wide configuration parameters for marketplace commissions and booking windows.
 
 ---
 
-## 4. Key Operational and Console Commands
+## Technical Stack
 
-Run these commands inside the application container or environment:
+* Framework: Laravel 13
+* Runtime: PHP 8.5
+* Database: MySQL 8.0
+* Frontend: Tailwind CSS, Blade Templating Engine
+* Containerization: Docker, Nginx
 
-```bash
-# Run the complete automated test suite
-php artisan test
+---
 
-# Reset the demo environment to its pristine seeded state
-php artisan demo:reset --force
+## Project Structure
 
-# Fast-forward demo time by one day and trigger scheduled jobs
-php artisan demo:tick
-
-# Run individual background scheduled tasks
-php artisan bookings:expire-authorizations
-php artisan bookings:auto-complete
-php artisan bookings:send-reminders
-
-# Clear and cache application views
-php artisan view:clear
-php artisan view:cache
-
-# Rebuild frontend assets (run from host)
-/opt/adanix/bin/adanix build service-market
+```
+app/
+├── Http/Controllers/     Directory, Booking, Provider, Payment, and Admin controllers
+├── Models/               Eloquent models (Service, Category, ProviderProfile, Booking, Payment, Payout)
+resources/
+├── views/                Blade templates (Service catalog, Booking forms, Provider profiles)
+routes/
+├── web.php               Marketplace route groups and inquiry endpoints
+database/
+├── migrations/           Database schema definitions
+├── seeders/              County registries, service categories, and verified provider seeders
 ```
 
 ---
 
-## 5. Architectural & Design Decisions
+## Installation & Deployment
 
-- **Integer Cents in EUR**: All monetary amounts are stored as integer cents (`price_cents`, `amount_cents`, `fee_cents`, `net_cents`). Formatting produces standard Irish euro strings (e.g., `€85.00`) using the dedicated `App\Support\Money` value object. Floating point math is never used.
-- **Two-Phase Payment Escrow**: Checkout authorizes a hold on customer funds without capturing immediately. Capture occurs only upon customer confirmation or automated completion after the dispute window expires.
-- **State Machine Integrity**: Bookings transition through explicit states (`PendingProvider`, `Accepted`, `InProgress`, `AwaitingConfirmation`, `Completed`, `Declined`, `Cancelled`, `Expired`) enforced by `App\Enums\BookingStatus` and guarded by authorization policies.
-- **Security & Privacy**: Strict role middleware (`role:customer`, `role:provider`, `role:admin`) isolates tenant workspaces. Idempotency keys prevent duplicate payments on repeated checkout submissions.
-- **Accessibility & Hygiene**: Pure SVG icons, semantic HTML, responsive layout down to 320px width, zero emoji, zero Indonesian terms, zero hardcoded credentials.
+### Prerequisites
+* Docker and Docker Compose
+* Git
+
+### Setup Instructions
+1. Clone the repository into your local development environment:
+   ```bash
+   git clone <repository_url>
+   cd <repository_folder>
+   ```
+
+2. Copy the sample environment configuration:
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Configure database settings in `.env`:
+   ```env
+   APP_NAME=ServiceLocal
+   APP_ENV=production
+   APP_DEBUG=false
+   DB_CONNECTION=mysql
+   DB_HOST=mysql
+   DB_PORT=3306
+   DB_DATABASE=laravel13_service_market
+   DB_USERNAME=usr_service_market
+   DB_PASSWORD=your_secure_password
+   ```
+
+4. Launch the application container:
+   ```bash
+   docker compose up -d
+   ```
+
+5. Install application dependencies:
+   ```bash
+   composer install --no-dev --optimize-autoloader
+   npm install && npm run build
+   ```
+
+6. Generate the encryption key:
+   ```bash
+   php artisan key:generate
+   ```
+
+7. Run database migrations and seed sample services:
+   ```bash
+   php artisan migrate --seed
+   ```
+
+8. Cache configuration:
+   ```bash
+   php artisan optimize:clear
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+   ```
 
 ---
 
-## 6. Documentation
+## License
 
-A comprehensive in-app documentation page is available at `/docs`, containing all twelve required architectural, operational, and regulatory sections for evaluation and review.
+This software is distributed under the proprietary license of the author. All rights reserved.
